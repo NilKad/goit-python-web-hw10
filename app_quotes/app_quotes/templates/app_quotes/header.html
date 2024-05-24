@@ -1,6 +1,6 @@
 {% load static %}
 {% block header %}
-  <header class="bg-light">
+  <header class="bg-light mb-4">
     <div class="container-xxl">
       <nav class="navbar navbar-expand-lg navbar-light">
         {% comment %} <a class="navbar-brand" href="/">Brand</a> {% endcomment %}
@@ -11,7 +11,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="#">Quotes to Scrape</a>
+              <a class="nav-link active" aria-current="page" href="/">Quotes</a>
+            </li>
+            {% comment %} <li class="nav-item">
+              <a class="nav-link active" href="/">Quotes to Scrape</a>
+            </li> {% endcomment %}
+            <li class="nav-item">
+              <a class="nav-link" href="/">Add Author</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/">Add quote</a>
             </li>
             {% comment %} <li class="nav-item">
               <a class="nav-link" href="#">Pricing</a>

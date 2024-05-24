@@ -16,12 +16,16 @@ Including another URLconf
 """
 
 from . import views
+from app_author.views import get_all
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 
 urlpatterns = [
     path("", views.index, name="home"),
+    path("author/", include("app_author.urls"), name="author"),
     path("admin/", admin.site.urls),
 ]
+
+handler404 = "app_quotes.views.custom_404_view"  # Путь к вашей пользовательской функции обработчика ошибок 404

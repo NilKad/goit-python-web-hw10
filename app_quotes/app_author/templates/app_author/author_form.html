@@ -17,17 +17,48 @@
 
     <form method="post">
       {% csrf_token %}
+
       {{ form.as_p }}
-      <button type="submit">Save</button>
+
+      {% if form.instance.pk %}
+        <button type="submit" class="btn btn-outline-primary me-3">Save</button>
+        <a href="{% url 'app_author:author_delete' author.pk %}" class="btn btn-outline-danger">Delete</a>
+      {% else %}
+        <button type="submit">Add</button>
+      {% endif %}
     </form>
 
-    {% comment %} <a href="{% url 'author_list' %}">Cancel</a> {% endcomment %}
     {% if form.instance.pk %}
-      <form method="post" action="{% url 'app_author:author_edit_delete' form.instance.pk %}" style="display:inline;">
+      {% comment %} <a href="{% url 'app_author:author_delete' author.pk %}" class="btn">Delete!</a> {% endcomment %}
+
+      {% comment %} <form method="post" action="{% url 'app_author:author_delete' author.pk %}" style="display:inline;">
         {% csrf_token %}
         <input type="hidden" name="_method" value="DELETE" />
         <button type="submit">Delete</button>
-      </form>
+      </form> {% endcomment %}
+
+      {% comment %} <form method="post" action="{% url 'app_author:author_edit' form.instance.pk %}" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit">Delete</button>
+      </form> {% endcomment %}
     {% endif %}
+    {% comment %} <form>
+      <div class="mb-3 row">
+        <label for="username" class="col-sm-4 col-form-label">Имя пользователя</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="username" placeholder="Введите имя пользователя" />
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="password" class="col-sm-4 col-form-label">Пароль</label>
+        <div class="col-sm-8">
+          <input type="password" class="form-control" id="password" placeholder="Введите пароль" />
+        </div>
+      </div>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Войти</button>
+      </div>
+    </form> {% endcomment %}
   </div>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% comment %} {% url 'app_author:author_list' as author_url %} {% endcomment %}
 {% block header %}
   <header class="bg-light mb-4">
     <div class="container-xxl">
@@ -11,13 +12,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Quotes</a>
+              <a {% if request.path == "/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/#">Quotes</a>
             </li>
             {% comment %} <li class="nav-item">
               <a class="nav-link active" href="/">Quotes to Scrape</a>
             </li> {% endcomment %}
             <li class="nav-item">
-              <a class="nav-link" href="/">Add Author</a>
+              <a {% if request.path == "/author/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url 'app_author:author_list' %}">Authors</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/">Add quote</a>

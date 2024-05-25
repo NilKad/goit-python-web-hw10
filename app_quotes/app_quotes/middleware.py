@@ -16,7 +16,7 @@ class HttpMethodOverrideMiddleware:
             # csrf_token = get_token(request)
             # request.META["X-CSRFToken"] = csrf_token
             print(f"!!!!! new methot: {request.method}")
-            request.DELETE = request.POST
+            # request.DELETE = request.POST
             
         response = self.get_response(request)
 

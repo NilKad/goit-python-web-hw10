@@ -1,5 +1,13 @@
 import re
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from django.views import View
 from .models import Author
 
@@ -40,12 +48,38 @@ def get_all(request):
     return render(request, "app_author/authors.html", context={"authors": authors})
 
 
-class AuthorListView(View):
-    template_name = "app_author/author_list.html"
+# class AuthorListView(View):
+#     template_name = "app_author/author_list.html"
 
-    def get(self, request):
-        authors = Author.objects.all()
-        return render(request, self.template_name, context={"authors": authors})
+#     def get(self, request):
+#         authors = Author.objects.all()
+#         return render(request, self.template_name, context={"authors": authors})
+
+
+class AuthorListView(ListView):
+    model = Author
+    template_name = "app_author/author_list.html"
+    context_object_name = "authors"
+
+
+class AuthorCreateView(CreateView):
+    model = Author
+    form_class = AuthorForm
+    template_name = "app_author/author_form.html"
+    success_url = reverse_lazy("app_author:author_list")
+
+
+class AuthorUpdateView(UpdateView):
+    model = Author
+    form_class = AuthorForm
+    template_name = "app_author/author_form.html"
+    success_url = reverse_lazy("app_author:author_list")
+
+
+class AuthorDeleteView(DeleteView):
+    model = Author
+    template_name = "app_author/author_confirm_delete.html"
+    success_url = reverse_lazy("app_author:author_list")
 
 
 class AuthorView(View):

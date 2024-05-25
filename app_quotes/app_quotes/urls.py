@@ -21,6 +21,7 @@ from app_author.views import get_all
 from django.contrib import admin
 from django.urls import path, include
 
+app_name = "app_quotes"
 
 urlpatterns = [
     path("", views.index, name="home"),

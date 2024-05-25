@@ -1,0 +1,33 @@
+{% extends 'app_quotes/base.html' %}
+
+{% block title %}
+  <title>Add author</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    {% comment %} <h1 class="fs-3 fw-bold">Add Autho</h1> {% endcomment %}
+    <h1 class="fs-3 fw-bold">
+      {% if form.instance.pk %}
+        Edit Author!
+      {% else %}
+        Add Author!
+      {% endif %}
+    </h1>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Save</button>
+    </form>
+
+    {% comment %} <a href="{% url 'author_list' %}">Cancel</a> {% endcomment %}
+    {% if form.instance.pk %}
+      <form method="post" action="{% url 'app_author:author_edit_delete' form.instance.pk %}" style="display:inline;">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="DELETE" />
+        <button type="submit">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}

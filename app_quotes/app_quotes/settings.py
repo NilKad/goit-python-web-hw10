@@ -48,6 +48,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
+    "app_quotes.middleware.HttpMethodOverrideMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -58,7 +59,9 @@ ROOT_URLCONF = "app_quotes.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "app_quotes", "templates", "app_quotes")],
+        # "DIRS": [os.path.join(BASE_DIR, "app_quotes", "templates", "app_quotes")],
+        # "DIRS": [os.path.join(BASE_DIR, "app_quotes", "templates")],
+        "DIRS": [BASE_DIR / "app_quotes/templates"],
         # "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -138,3 +141,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CSRF_COOKIE_HTTPONLY = True

@@ -20,9 +20,10 @@ def index(request):
     for quote in quotes:
         quote.tags = quote.tags.split(",")
         fullname_uri = convert_fullname_to_link(quote.author.fullname)
-        quote.author_detail_url = reverse(
-            "app_author:author_detail", args=[fullname_uri]
-        )
+        # quote.author_detail_url = reverse(
+        #     "app_author:author_detail", args=[fullname_uri]
+        # )
+        quote.author_detail_url = f"author/{fullname_uri}"
 
     page_obj = paginator.get_page(page_number)
 

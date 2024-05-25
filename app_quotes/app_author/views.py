@@ -1,7 +1,10 @@
 import re
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
 from .models import Author
-from django.http import Http404
+
+from .forms import AuthorForm
+from django.http import Http404, HttpResponseNotAllowed
 
 # Create your views here.
 
@@ -21,9 +24,6 @@ def convert_link_to_fullname(name):
     return result
 
 
-
-
-
 def get_author(request, author_name=None):
     fullname = convert_link_to_fullname(author_name)
     print(f"{author_name} -> {fullname}")
@@ -36,8 +36,56 @@ def get_author(request, author_name=None):
 def get_all(request):
     authors = Author.objects.all()
     # for author in authors:
-        # author.detail_url = convert_fullname_to_link(author.fullname)
+    # author.detail_url = convert_fullname_to_link(author.fullname)
     return render(request, "app_author/authors.html", context={"authors": authors})
+
+
+class AuthorListView(View):
+    template_name = "app_author/author_list.html"
+
+    def get(self, request):
+        authors = Author.objects.all()
+        return render(request, self.template_name, context={"authors": authors})
+
+
+class AuthorView(View):
+    template_name = "app_author/author_form.html"
+
+    def get(self, request, pk=None):
+        if pk:
+            print(f"pk: {pk}")
+            author = get_object_or_404(Author, pk=pk)
+            print(f"author fullname: {author.fullname}")
+            form = AuthorForm(instance=author)
+        else:
+            form = AuthorForm()
+        # form = AuthorForm()
+        return render(request, self.template_name, {"form": form})
+        # return render(request, self.template_name)
+
+    def post(self, request, pk=None):
+        print(f"----- Request method: {request.method}")
+        if pk:
+            author = get_object_or_404(Author, pk=pk)
+            form = AuthorForm(request.POST, instance=author)
+        else:
+            form = AuthorForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            # return redirect(to="app_author:author_list")
+            # return redirect(to="app_quotes:home")
+            return redirect(to="app_author:author_list")
+            # return redirect("/")
+        return render(request, self.template_name, {"form": form})
+
+    def delete(self, request, pk):
+        print("!!!!!!! - DELETE")
+        if request.method != "DELETE":
+            return HttpResponseNotAllowed(["DELETE"])
+        author = get_object_or_404(Author, pk=pk)
+        author.delete()
+        return redirect("app_author:author_list")
 
 
 # def custom_404_view(request, exception):

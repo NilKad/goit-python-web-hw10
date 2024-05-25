@@ -21,7 +21,7 @@
               <a {% if request.path == "/author/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url 'app_author:author_list' %}">Authors</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/">Add quote</a>
+              <a {% if request.path == "/quotes/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url "quotes_list" %}">Add quote</a>
             </li>
             {% comment %} <li class="nav-item">
               <a class="nav-link" href="#">Pricing</a>

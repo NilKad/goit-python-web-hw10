@@ -25,6 +25,10 @@ app_name = "app_quotes"
 
 urlpatterns = [
     path("", views.index, name="home"),
+    path("quotes/", views.index, name="quotes_list"),
+    path("quotes/add", views.index, name="quotes_add"),
+    path("quotes/edit/<int:id>", views.index, name="quotes_edit"),
+    path("quotes/del/<int:id>", views.index, name="quotes_delete"),
     path("author/", include("app_author.urls"), name="author"),
     path("admin/", admin.site.urls),
 ]

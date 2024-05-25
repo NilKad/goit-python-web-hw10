@@ -1,0 +1,59 @@
+{% extends 'app_quotes/base.html' %}
+
+{% block title %}
+  <title>Quotes List</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row mb-3">
+      <div class="col-12 d-flex justify-content-between align-items-center">
+        <h1 class="fs-3 fw-bold">Quotes List</h1>
+        {% comment %} <a href="{% url 'app_author:author_add' %}" class="btn btn-outline-primary">Add a new author</a> {% endcomment %}
+      </div>
+    </div>
+
+    <table class="table align-middle">
+      <thead class="text-center">
+        <tr>
+          <th class="col">id</th>
+          <th class="col">Quote</th>
+          <th class="col-2">Author</th>
+          <th class="col">tags</th>
+          {% comment %} <th>Author</th> {% endcomment %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for quote in page_obj %}
+          <tr class="col">
+            <th class="">{{ quote.pk }}</th>
+            <td class="col-8 fst-italic">{{ quote.quote }}</td>
+            <td class="fw-semibold">{{ quote.author.fullname }}</td>
+            <td>{{ quote.tags|join:', ' }}</td>
+            {% comment %} <td>
+              {% endcomment %}
+              {% comment %} <a href="{% url 'app_author:author_edit' author.pk %}">Edit</a> {% endcomment %}
+              {% comment %}
+            </td> {% endcomment %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between align-items-center pt-2 pb-2 mb-5">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary rounded-pill">Previous</a>
+      {% else %}
+        <a href="" class="btn btn-outline-secondary rounded-pill disabled">Previous</a>
+      {% endif %}
+
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary rounded-pill">Next</a>
+      {% else %}
+        <a href="" class="btn btn-outline-secondary rounded-pill disabled">Next</a>
+      {% endif %}
+
+      
+    </div>
+  </div>
+{% endblock %}

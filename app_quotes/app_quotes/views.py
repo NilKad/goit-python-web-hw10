@@ -7,16 +7,25 @@ from .models import Quote
 
 def convert_fullname_to_link(name):
     result = re.sub(r"\.\s|\s|\.", "-", name)
-    print(f"result: '{result}'")
+    # print(f"result: '{result}'")
     return result
 
 
 def index(request):
     quotes = Quote.objects.all()
     page_number = request.GET.get("page")
-    # per_page = request.GET.get("per_page")
-    per_page = 10
+    per_page = request.GET.get("per_page")
+    print(f"GET {request.path}")
+    print(f"GET {request.path_info}")
+    if not per_page:
+        per_page = 10
+    is_edit = False
+    if request.path == "/quotes/":
+        is_edit = True
+        per_page = 30
     paginator = Paginator(quotes, per_page)
+
+    # Создание ссылки для старницы автора из fullname
     for quote in quotes:
         quote.tags = quote.tags.split(",")
         fullname_uri = convert_fullname_to_link(quote.author.fullname)
@@ -27,7 +36,12 @@ def index(request):
 
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "app_quotes/index.html", {"page_obj": page_obj})
+    if is_edit:
+        print("@@@@   EDIT    @@@@@")
+        return render(request, "app_quotes/quotes_list.html", {"page_obj": page_obj})
+        ...
+    else:
+        return render(request, "app_quotes/index.html", {"page_obj": page_obj})
 
 
 def custom_404_view(request, exception):

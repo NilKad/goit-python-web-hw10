@@ -1,8 +1,17 @@
 import re
+from django.urls import reverse_lazy
 from django.shortcuts import render, HttpResponse, redirect
 from django.core.paginator import Paginator
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from django.urls import reverse
 from .models import Quote
+from .forms import QuoteForm
 
 
 def convert_fullname_to_link(name):
@@ -29,19 +38,21 @@ def index(request):
     for quote in quotes:
         quote.tags = quote.tags.split(",")
         fullname_uri = convert_fullname_to_link(quote.author.fullname)
-        # quote.author_detail_url = reverse(
-        #     "app_author:author_detail", args=[fullname_uri]
-        # )
         quote.author_detail_url = f"author/{fullname_uri}"
 
     page_obj = paginator.get_page(page_number)
 
     if is_edit:
-        print("@@@@   EDIT    @@@@@")
         return render(request, "app_quotes/quotes_list.html", {"page_obj": page_obj})
-        ...
     else:
         return render(request, "app_quotes/index.html", {"page_obj": page_obj})
+
+
+class QuoteUpdateView(UpdateView):
+    model = Quote
+    form_class = QuoteForm
+    template_name = "app_quotes/quoute_form.html"
+    success_url = reverse_lazy("quote_list")
 
 
 def custom_404_view(request, exception):

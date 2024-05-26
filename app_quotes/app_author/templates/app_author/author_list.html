@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
+  <div class="container-xxl">
     <div class="row mb-3">
       <div class="col-12 d-flex justify-content-between align-items-center">
         <h1 class="fs-3 fw-bold">Author List</h1>
@@ -26,7 +26,7 @@
       <tbody>
         {% for author in authors %}
           <tr>
-            <td>{{ author.pk }}</td>
+            <td class="text-end">{{ author.pk }}</td>
             <td>{{ author.fullname }}</td>
             <td>{{ author.born_date }}</td>
             <td>{{ author.born_location }}</td>
@@ -37,5 +37,19 @@
         {% endfor %}
       </tbody>
     </table>
+    <div class="d-flex justify-content-between align-items-center pt-2 pb-2 mb-5">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary rounded-pill">Previous</a>
+      {% else %}
+        <a href="" class="btn btn-outline-secondary rounded-pill disabled">Previous</a>
+      {% endif %}
+
+      <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary rounded-pill">Next</a>
+      {% else %}
+        <a href="" class="btn btn-outline-secondary rounded-pill disabled">Next</a>
+      {% endif %}
+    </div>
   </div>
 {% endblock %}

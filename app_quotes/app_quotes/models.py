@@ -7,3 +7,6 @@ class Quote(models.Model):
     quote = models.TextField()
     tags = models.CharField(max_length=255)
     author = models.ForeignKey(Author, related_name="quotes", on_delete=models.CASCADE)
+
+    # def __str__(self) -> str:
+    # return f'self.fullname'

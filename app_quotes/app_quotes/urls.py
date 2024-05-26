@@ -20,15 +20,16 @@ from app_author.views import get_all
 
 from django.contrib import admin
 from django.urls import path, include
+from .views import QuoteUpdateView
 
 app_name = "app_quotes"
 
 urlpatterns = [
     path("", views.index, name="home"),
-    path("quotes/", views.index, name="quotes_list"),
-    path("quotes/add", views.index, name="quotes_add"),
-    path("quotes/edit/<int:id>", views.index, name="quotes_edit"),
-    path("quotes/del/<int:id>", views.index, name="quotes_delete"),
+    path("quotes/", views.index, name="quote_list"),
+    path("quotes/add", views.index, name="quote_add"),
+    path("quotes/edit/<int:pk>", QuoteUpdateView.as_view(), name="quote_edit"),
+    path("quotes/del/<int:pk>", views.index, name="quote_delete"),
     path("author/", include("app_author.urls"), name="author"),
     path("admin/", admin.site.urls),
 ]

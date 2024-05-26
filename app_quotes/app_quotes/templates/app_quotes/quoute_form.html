@@ -21,7 +21,7 @@
 
       {% if form.instance.pk %}
         <button type="submit" class="btn btn-outline-primary me-3">Save</button>
-        {% comment %} <a href="{% url 'app_author:author_delete' author.pk %}" class="btn btn-outline-danger">Delete</a> {% endcomment %}
+        <a href="{% url 'quote_delete' quote.pk %}" class="btn btn-outline-danger">Delete</a>
       {% else %}
         <button type="submit">Add</button>
       {% endif %}

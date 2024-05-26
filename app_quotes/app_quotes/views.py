@@ -55,6 +55,12 @@ class QuoteUpdateView(UpdateView):
     success_url = reverse_lazy("quote_list")
 
 
+class QuoteDeleteView(DeleteView):
+    model = Quote
+    template_name = "app_quotes/quote_confirm_delete.html"
+    success_url = reverse_lazy("quote_list")
+
+
 def custom_404_view(request, exception):
     return render(
         request, "app_quotes/404.html", status=404, context={"exception": exception}

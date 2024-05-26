@@ -20,7 +20,7 @@ from app_author.views import get_all
 
 from django.contrib import admin
 from django.urls import path, include
-from .views import QuoteUpdateView
+from .views import QuoteUpdateView, QuoteDeleteView
 
 app_name = "app_quotes"
 
@@ -29,7 +29,7 @@ urlpatterns = [
     path("quotes/", views.index, name="quote_list"),
     path("quotes/add", views.index, name="quote_add"),
     path("quotes/edit/<int:pk>", QuoteUpdateView.as_view(), name="quote_edit"),
-    path("quotes/del/<int:pk>", views.index, name="quote_delete"),
+    path("quotes/del/<int:pk>", QuoteDeleteView.as_view(), name="quote_delete"),
     path("author/", include("app_author.urls"), name="author"),
     path("admin/", admin.site.urls),
 ]

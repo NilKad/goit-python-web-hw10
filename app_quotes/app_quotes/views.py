@@ -21,7 +21,7 @@ def convert_fullname_to_link(name):
 
 
 def index(request):
-    quotes = Quote.objects.all()
+    quotes = Quote.objects.order_by("id").all()
     page_number = request.GET.get("page")
     per_page = request.GET.get("per_page")
     print(f"GET {request.path}")

@@ -61,7 +61,7 @@ class AuthorListView(ListView):
     template_name = "app_author/author_list.html"
     context_object_name = "authors"
     paginate_by = 30
-    # paginate_orphans = 29
+    ordering = ["fullname"]
 
 
 class AuthorCreateView(CreateView):

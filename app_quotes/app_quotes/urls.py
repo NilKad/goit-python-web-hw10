@@ -25,8 +25,6 @@ from .views import QuoteListView, QuoteCreateView, QuoteUpdateView, QuoteDeleteV
 app_name = "app_quotes"
 
 urlpatterns = [
-    # path("", views.index, name="home"),
-    # path("quotes/", views.index, name="quote_list"),
     path("", QuoteListView.as_view(), name="home"),
     path("quotes/", QuoteListView.as_view(), name="quote_list"),
     path("quotes/add", QuoteCreateView.as_view(), name="quote_add"),

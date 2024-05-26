@@ -11,13 +11,10 @@
             <a href="{{ quote.author_detail_url }}" class="card-link">(about)</a>
           </p>
           <p class="card-title">
-            Tags:{% for tag in quote.tags %}
-              <a href="#" class="btn btn-primary btn-sm" style="--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;">{{ tag }}</a>
+            Tags:{% for tag in quote.tag_list %}
+              <a class="btn btn-primary btn-sm" style="--bs-btn-padding-y: .1rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: .75rem;" href="{% url 'quote_list' %}?tag={{ tag }}">{{ tag }}</a>{% if not forloop.last %} {% endif %}
             {% endfor %}
           </p>
-          {% comment %} <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6> {% endcomment %}
-          {% comment %} <a href="#" class="card-link">Card link</a> {% endcomment %}
-          {% comment %} <a href="#" class="card-link">Another link</a> {% endcomment %}
         </div>
       </div>
     {% endfor %}

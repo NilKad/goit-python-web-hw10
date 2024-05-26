@@ -19,7 +19,7 @@ def convert_fullname_to_link(name):
     # print(f"result: '{result}'")
     return result
 
-
+#TODO: это можно будет удалить
 def index(request):
     quotes = Quote.objects.order_by("id").all()
     page_number = request.GET.get("page")
@@ -47,11 +47,54 @@ def index(request):
     else:
         return render(request, "app_quotes/index.html", {"page_obj": page_obj})
 
+class QuoteListView(ListView):
+    model = Quote
+    context_object_name = "quotes"
+    ordering = ["id"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        author_id = self.request.GET.get("author_id")
+        tag = self.request.GET.get("tag")
+        if author_id:
+            queryset = queryset.filter(author_id=author_id)
+        if tag:
+            queryset = queryset.filter(tags__icontains=tag)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for quote in context["quotes"]:
+            quote.tag_list = quote.tags.split(",")
+            fullname_uri = convert_fullname_to_link(quote.author.fullname)
+            quote.author_detail_url = f"author/{fullname_uri}"
+
+        return context
+
+    def get_template_names(self):
+        if self.request.path == reverse("quote_list"):
+            return "app_quotes/quotes_list.html"
+        else:
+            return "app_quotes/index.html"
+
+    def get_paginate_by(self, queryset):
+        if self.request.path == reverse("quote_list"):
+            return 30
+        else:
+            return 10
+
+
+class QuoteCreateView(CreateView):
+    model = Quote
+    form_class = QuoteForm
+    template_name = "app_quotes/quote_form.html"
+    success_url = reverse_lazy("quote_list")
+
 
 class QuoteUpdateView(UpdateView):
     model = Quote
     form_class = QuoteForm
-    template_name = "app_quotes/quoute_form.html"
+    template_name = "app_quotes/quote_form.html"
     success_url = reverse_lazy("quote_list")
 
 

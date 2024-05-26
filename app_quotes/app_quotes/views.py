@@ -54,7 +54,6 @@ def index(request):
 class QuoteListView(ListView):
     model = Quote
     context_object_name = "quotes"
-    # paginate_by = 30
     ordering = ["id"]
 
     def get_queryset(self):
@@ -77,7 +76,9 @@ class QuoteListView(ListView):
         return context
 
     def get_template_names(self):
-        if self.request.path == reverse("quote_list"):
+        if self.request.user.is_authenticated and self.request.path == reverse(
+            "quote_list"
+        ):
             return "app_quotes/quotes_list.html"
         else:
             return "app_quotes/index.html"

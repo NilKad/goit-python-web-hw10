@@ -4,19 +4,20 @@
   <header class="bg-light mb-4">
     <div class="container-xxl">
       <nav class="navbar navbar-expand-lg navbar-light">
-        {% comment %} <a class="navbar-brand" href="/">Brand</a> {% endcomment %}
-        {% comment %} <a class="navbar-brand" href="/"><img src="{% static 'images/logo-quotes2_cr.svg' %}" alt="Logo" /></a> {% endcomment %}
         <a class="navbar-brand" href="/"><img src="{% static 'images/logo-quotes3.svg' %}" alt="Logo" width="30" /></a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a {% if request.path == "/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/">Quotes</a>
+              <a aria-current="page" href="/" 
+                {% if request.path == "/" %} 
+                  class="nav-link active" 
+                {% else %} 
+                  class="nav-link"
+                {% endif %} >
+              Quotes</a>
             </li>
-            {% comment %} <li class="nav-item">
-              <a class="nav-link active" href="/">Quotes to Scrape</a>
-            </li> {% endcomment %}
             {% if user.is_authenticated %}
               <li class="nav-item">
                 <a {% if request.path == "/author/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url 'app_author:author_list' %}">Authors</a>
@@ -26,16 +27,6 @@
               </li>
             {% else %}
             {% endif %}
-
-            {% comment %} <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="visually-hidden">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li> {% endcomment %}
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             {% if user.is_authenticated %}

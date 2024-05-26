@@ -7,7 +7,7 @@
         <div class="card-body">
           <p class="card-text fs-5 fst-italic mb-2">{{ quote.quote }}</p>
           <p class="card-title mb-2">
-            by <span class="text-primary fw-bold">{{ quote.author.fullname }}</span>
+            by <a class="text-primary fw-bold " href="{% url 'home' %}?author_id={{ quote.author.pk }}">{{ quote.author.fullname }}</a>
             <a href="{{ quote.author_detail_url }}" class="card-link">(about)</a>
           </p>
           <p class="card-title">

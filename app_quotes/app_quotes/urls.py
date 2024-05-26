@@ -16,7 +16,6 @@ Including another URLconf
 """
 
 from . import views
-from app_author.views import get_all
 
 from django.contrib import admin
 from django.urls import path, include

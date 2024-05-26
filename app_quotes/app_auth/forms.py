@@ -2,11 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from django.forms import (
-    ModelForm,
     CharField,
-    ImageField,
     TextInput,
-    FileInput,
     EmailInput,
     EmailField,
     PasswordInput,

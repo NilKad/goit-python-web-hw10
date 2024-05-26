@@ -9,6 +9,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.urls import reverse
 from .models import Quote
 from .forms import QuoteForm
@@ -19,7 +21,8 @@ def convert_fullname_to_link(name):
     # print(f"result: '{result}'")
     return result
 
-#TODO: это можно будет удалить
+
+# TODO: это можно будет удалить
 def index(request):
     quotes = Quote.objects.order_by("id").all()
     page_number = request.GET.get("page")
@@ -47,9 +50,11 @@ def index(request):
     else:
         return render(request, "app_quotes/index.html", {"page_obj": page_obj})
 
+
 class QuoteListView(ListView):
     model = Quote
     context_object_name = "quotes"
+    # paginate_by = 30
     ordering = ["id"]
 
     def get_queryset(self):
@@ -84,21 +89,21 @@ class QuoteListView(ListView):
             return 10
 
 
-class QuoteCreateView(CreateView):
+class QuoteCreateView(LoginRequiredMixin, CreateView):
     model = Quote
     form_class = QuoteForm
     template_name = "app_quotes/quote_form.html"
     success_url = reverse_lazy("quote_list")
 
 
-class QuoteUpdateView(UpdateView):
+class QuoteUpdateView(LoginRequiredMixin, UpdateView):
     model = Quote
     form_class = QuoteForm
     template_name = "app_quotes/quote_form.html"
     success_url = reverse_lazy("quote_list")
 
 
-class QuoteDeleteView(DeleteView):
+class QuoteDeleteView(LoginRequiredMixin, DeleteView):
     model = Quote
     template_name = "app_quotes/quote_confirm_delete.html"
     success_url = reverse_lazy("quote_list")

@@ -31,6 +31,7 @@ urlpatterns = [
     path("quotes/edit/<int:pk>", QuoteUpdateView.as_view(), name="quote_edit"),
     path("quotes/del/<int:pk>", QuoteDeleteView.as_view(), name="quote_delete"),
     path("author/", include("app_author.urls"), name="author"),
+    path("auth/", include("app_auth.urls"), name="auth"),
     path("admin/", admin.site.urls),
 ]
 

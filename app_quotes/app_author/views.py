@@ -10,6 +10,7 @@ from django.views.generic import (
 )
 from django.views import View
 from .models import Author
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import AuthorForm
 from django.http import Http404, HttpResponseNotAllowed
@@ -56,7 +57,7 @@ def get_all(request):
 #         return render(request, self.template_name, context={"authors": authors})
 
 
-class AuthorListView(ListView):
+class AuthorListView(LoginRequiredMixin, ListView):
     model = Author
     template_name = "app_author/author_list.html"
     context_object_name = "authors"
@@ -64,21 +65,21 @@ class AuthorListView(ListView):
     ordering = ["fullname"]
 
 
-class AuthorCreateView(CreateView):
+class AuthorCreateView(LoginRequiredMixin, CreateView):
     model = Author
     form_class = AuthorForm
     template_name = "app_author/author_form.html"
     success_url = reverse_lazy("app_author:author_list")
 
 
-class AuthorUpdateView(UpdateView):
+class AuthorUpdateView(LoginRequiredMixin, UpdateView):
     model = Author
     form_class = AuthorForm
     template_name = "app_author/author_form.html"
     success_url = reverse_lazy("app_author:author_list")
 
 
-class AuthorDeleteView(DeleteView):
+class AuthorDeleteView(LoginRequiredMixin, DeleteView):
     model = Author
     template_name = "app_author/author_confirm_delete.html"
     success_url = reverse_lazy("app_author:author_list")
@@ -124,7 +125,3 @@ class AuthorView(View):
         return redirect("app_author:author_list")
 
 
-# def custom_404_view(request, exception):
-#     return render(
-#         request, "app_author/404.html", status=404, context={"exception": exception}
-#     )

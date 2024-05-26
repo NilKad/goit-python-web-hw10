@@ -17,12 +17,16 @@
             {% comment %} <li class="nav-item">
               <a class="nav-link active" href="/">Quotes to Scrape</a>
             </li> {% endcomment %}
-            <li class="nav-item">
-              <a {% if request.path == "/author/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url 'app_author:author_list' %}">Authors</a>
-            </li>
-            <li class="nav-item">
-              <a {% if request.path == "/quotes/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url "quote_list" %}">Add quote</a>
-            </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a {% if request.path == "/author/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url 'app_author:author_list' %}">Authors</a>
+              </li>
+              <li class="nav-item">
+                <a {% if request.path == "/quotes/" %} class="nav-link active" {% else %} class="nav-link" {% endif %} href="{% url "quote_list" %}">Add quote</a>
+              </li>
+            {% else %}
+            {% endif %}
+
             {% comment %} <li class="nav-item">
               <a class="nav-link" href="#">Pricing</a>
             </li>
@@ -34,15 +38,18 @@
             </li> {% endcomment %}
           </ul>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Register</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Logout</a>
-            </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url "app_auth:logout" %}">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url "app_auth:signin" %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url "app_auth:signup" %}">Register</a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </nav>
